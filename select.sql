@@ -25,14 +25,16 @@ SELECT p.idProducao, p.DataProducao, p.Quantidade, m.Nome, m.CDB
 FROM Producoes p
 JOIN Medicamentos m
 ON p.idMedicamento = m.idMedicamento
+
 SELECT p.idProducao, p.DataProducao, p.Quantidade, i.QuantidadePA, pa.Nome, pa.Situacao
 FROM Producoes p
-JOIN Producoes_ItensProducao pip
+JOIN Producoes_ItensProducao pip  
 ON p.idProducao = pip.idProducao
 JOIN ItensProducao i
 ON pip.idItemProducao = i.idItemProducao
 JOIN PrincipiosAtivos pa
 ON i.idPrincipioAtivo = pa.idPrincipioAtivo
+
 
 --listar itens com total item
 SELECT
@@ -56,7 +58,6 @@ JOIN Compras_ItensCompra cic ON c.idCompra = cic.idCompra
 JOIN ItensCompras ic ON cic.idItemCompra = ic.idItemCompra
 WHERE c.idCompra = 1
 GROUP BY c.idCompra, c.DataCompra, c.idFornecedor;
-
 
 -- verificando se  o campo do ultimo fornecimento utualizou
 SELECT idFornecedor, UltimoFornecimento FROM Fornecedores;
@@ -134,7 +135,6 @@ JOIN Vendas_ItensVenda viv ON v.idVenda = viv.idVenda
 JOIN ItensVenda iv ON viv.idItemVenda = iv.idItemVenda
 JOIN Medicamentos m ON iv.idMedicamento = m.idMedicamento
 ORDER BY v.DataVenda, v.idVenda, m.Nome;
-
 --mostra a venda
 SELECT
     v.idVenda,
@@ -150,13 +150,14 @@ JOIN Medicamentos m ON iv.idMedicamento = m.idMedicamento
 GROUP BY v.idVenda, v.DataVenda, c.Nome
 ORDER BY v.DataVenda, v.idVenda;
 
+
 --relatorio de Medicamentos mais vendidos
 SELECT m.Nome, m.Situacao, m.Categoria, m.CDB, SUM(iv.Quantidade) AS QuantidadeTotalVendida
 FROM VendasMedicamentos vm
 JOIN Vendas_ItensVenda viv ON vm.idVenda = viv.idVenda
 JOIN ItensVenda iv ON viv.idItemVenda = iv.idItemVenda
 JOIN Medicamentos m ON iv.idMedicamento = m.idMedicamento
-WHERE vm.DataVenda BETWEEN '2025-11-09' AND '2025-11-10'
+WHERE vm.DataVenda BETWEEN '2025-11-15' AND '2025-11-15'
 GROUP BY m.Nome, m.Situacao, m.Categoria, m.CDB
 ORDER BY QuantidadeTotalVendida DESC;
 
@@ -171,7 +172,7 @@ JOIN Clientes c ON vm.idCliente = c.idCliente
 JOIN Vendas_ItensVenda viv ON vm.idVenda = viv.idVenda
 JOIN ItensVenda iv ON viv.idItemVenda = iv.idItemVenda
 JOIN Medicamentos m ON iv.idMedicamento = m.idMedicamento
-WHERE vm.DataVenda BETWEEN '2025-11-08' AND '2025-11-09'
+WHERE vm.DataVenda BETWEEN '2025-11-15' AND '2025-11-15'
 GROUP BY vm.idVenda, vm.DataVenda, c.Nome
 ORDER BY vm.DataVenda, vm.idVenda;
 
